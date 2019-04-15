@@ -1,6 +1,6 @@
 <?php
 
-function generarCodigo($longitud)
+function generarfolio($longitud)
 {
     $key     = '';
     $pattern = '1234567890abcdefghijklmnopqrstuvwxyz';
@@ -11,52 +11,24 @@ function generarCodigo($longitud)
 }
 
 
-function registerToCourse($name_first, $name_last, $email, $course)
+function registerToCourse($folio,$course)
 {
     $usuario     = "root";
     $contrasena  = "root";
     $servidor    = "localhost";
-    $basededatos = "logincloud";
+    $basededatos = "id9296254_carsp";
     $conexion = mysqli_connect($servidor, $usuario, $contrasena) or die("No se ha podido conectar al servidor de Base de datos");
     $db = mysqli_select_db($conexion, $basededatos) or die("Upps! Pues va a ser que no se ha podido conectar a la base de datos");
-    
-    $consultaEmail = "SELECT * FROM `REGISTERS_COURSE` WHERE `email` = '" . $email . "'";
-    $resultadoConsultaEmail = mysqli_query($conexion, $consultaEmail) or die("Algo ha ido mal en la consulta a la base de datos consulta email");
-    
-    while ($columnaConsultaEmail = mysqli_fetch_array($resultadoConsultaEmail)) {
-        $statusEmail = $columnaConsultaEmail[email];
-    }
-    
-    if ($statusEmail == $email) {
-        $error_message = "Este correo ya esta registrado.";
-        echo $error_message;
-    } else {
-        $code = "C01" . generarCodigo(6);
-        
-        $registerStudentCoruse = "INSERT INTO REGISTERS_COURSE (name_first, name_last, email, status, code, course) 
-        VALUES (
-                '$name_first', 
-                '$name_last', 
-                '$email', 
-                '1', 
-                '$code', 
-                '$course')";
-        
-        $register = mysqli_query($conexion, $registerStudentCoruse) or die("Algo ha ido mal en la consulta a la base de datos consulta email");
-        
-        sendEmail($email, $name_first);
-        
-        return true;
-    }
+
 }
 
 function registerAssitence($code)
 {
     
-    $usuario     = "root";
-    $contrasena  = "root";
+    $usuario     = "miguelangel";
+    $contrasena  = "miguelangel";
     $servidor    = "localhost";
-    $basededatos = "logincloud";
+    $basededatos = "id9296254_carsp";
     $conexion = mysqli_connect($servidor, $usuario, $contrasena) or die("No se ha podido conectar al servidor de Base de datos");
     $db = mysqli_select_db($conexion, $basededatos) or die("Upps! Pues va a ser que no se ha podido conectar a la base de datos");
     
@@ -83,10 +55,10 @@ function registerAssitence($code)
 function changeStatus($id, $status)
 {
     
-    $usuario     = "root";
-    $contrasena  = "root";
+    $usuario     = "miguelangel";
+    $contrasena  = "miguelangel";
     $servidor    = "localhost";
-    $basededatos = "logincloud";
+    $basededatos = "id9296254_carsp";
     $conexion = mysqli_connect($servidor, $usuario, $contrasena) or die("No se ha podido conectar al servidor de Base de datos");
     $db = mysqli_select_db($conexion, $basededatos) or die("Upps! Pues va a ser que no se ha podido conectar a la base de datos");
     
@@ -115,10 +87,10 @@ function changeStatus($id, $status)
 
 function selectContacts()
 {
-    $usuario     = "root";
-    $contrasena  = "root";
+    $usuario     = "miguelangel";
+    $contrasena  = "miguelangel";
     $servidor    = "localhost";
-    $basededatos = "logincloud";
+    $basededatos = "id9296254_carsp";
     $conexion = mysqli_connect($servidor, $usuario, $contrasena) or die("No se ha podido conectar al servidor de Base de datos");
     $db = mysqli_select_db($conexion, $basededatos) or die("Upps! Pues va a ser que no se ha podido conectar a la base de datos");
     
@@ -128,8 +100,7 @@ function selectContacts()
 
     echo "<table>
             <tr>
-                <th>Nombre</th>
-                <th>email</th>
+                <th>folio</th>
                 <th>Status</th>
                 <th>Cambiar Status</th>
             </tr>";
@@ -146,7 +117,7 @@ function selectContacts()
 
         echo "<tr>
                 <td>" . $row["name_first"]. "</td>
-                <td>" . $row["email"]. "</td>
+                
                 <td id='ST".$row["id"]."' style='background-color:" . $bg . "'>" . $row["status"]. "</td>
                 <td><button onclick='changeStatus(".$row["id"].",".$changeStatus.")'>Cambiar</button></td>
             </tr>";
@@ -154,42 +125,5 @@ function selectContacts()
     echo "</table>";
 }
 
-function sendEmail($email, $name_first)
-{
-    // Envio de email
-    require 'phpmailer/PHPMailerAutoload.php';
-    require 'phpmailer/class.phpmailer.php';
-    require 'phpmailer/class.smtp.php';
-    
-    $template1 = file_get_contents('mail.html');
-    $template1 = str_replace('%nombre%', $name_first, $template1);
-    $template1 = str_replace('%email%', $email, $template1);
-    $template1 = str_replace('%tipo%', $code, $template1);
-    $template1 = str_replace('%problema%', $course, $template1);
-    
-    $mail1 = new PHPMailer;
-    $mail1->isSMTP();
-    $mail1->Host     = 'smtp.gmail.com'; // <---- Servidor proveedor del servicio de emails
-    $mail1->SMTPAuth = true;
-    
-    $mail1->Username   = 'xxxxxxxx@gmail.com'; // <---- Email del cliente
-    $mail1->Password   = 'xxxxxx'; // <---- Contraseña del email del cliente
-    $mail1->Port       = 587; // <---- Puerto del servidor del servicio de emails
-    $mail1->SMTPSecure = 'tls'; // <---- Tipo de seguridad
-    $mail1->From       = 'xxxxxxxx@gmail.com'; // <---- Email del cliente
-    $mail1->FromName   = 'Login - Cloud'; // <---- Cambiar el nombre del cliente
-    $mail1->addAddress($email);
-    $mail1->isHTML(true);
-    $mail1->CharSet = 'UTF-8';
-    $mail1->Subject = 'Confirmación de registro';
-    $mail1->Body    = $template1;
-    
-    
-    if (!$mail1->Send()) {
-        echo "500";
-    } else {
-        echo "200";
-    }
-}
 
 ?>
