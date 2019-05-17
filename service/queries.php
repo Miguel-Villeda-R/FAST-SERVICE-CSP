@@ -13,8 +13,8 @@ function generarfolio($longitud)
 
 function registerToCourse($folio,$course)
 {
-    $usuario     = "root";
-    $contrasena  = "root";
+    $usuario     = "miguelangel";
+    $contrasena  = "miguelangel";
     $servidor    = "localhost";
     $basededatos = "id9296254_carsp";
     $conexion = mysqli_connect($servidor, $usuario, $contrasena) or die("No se ha podido conectar al servidor de Base de datos");
@@ -100,23 +100,15 @@ function selectContacts()
 
     echo "<table>
             <tr>
-                <th>folio</th>
-                <th>Status</th>
-                <th>Cambiar Status</th>
+                <th>id</th>
+                <th>Folio</th>
             </tr>";
-    // output data of each row
-    while($row = $resultadoConsultaRegisters->fetch_assoc()) {
-        if($row["status"] == 1){
-            $bg = "red";
-            $changeStatus = 0;
-        }
-        else{
-            $bg = "green";
-            $changeStatus = 1;
-        }
 
+    // output data of each row
+    while($row = $resultadoConsultaRegisters->fetch_assoc()) 
+    {
         echo "<tr>
-                <td>" . $row["name_first"]. "</td>
+                <td>" . $row["folio"]. "</td>
                 
                 <td id='ST".$row["id"]."' style='background-color:" . $bg . "'>" . $row["status"]. "</td>
                 <td><button onclick='changeStatus(".$row["id"].",".$changeStatus.")'>Cambiar</button></td>

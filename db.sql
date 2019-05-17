@@ -6,12 +6,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `REGISTERS_COURSE` (
   `id` int(11) NOT NULL,
-  `folio` int(100) NOT NULL,
-  `course` int(11) NOT NULL,
-  `status` int(11) NOT NULL,
-  `assistence` int(3) DEFAULT '0',
-  `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `code` varchar(30) NOT NULL
+  `folio` int(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

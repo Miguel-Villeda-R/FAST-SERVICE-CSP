@@ -45,33 +45,7 @@
             }
         });
 
-        function changeStatus(p1, p2) {
-            var status = ""
-            if (p2 == 0) {
-                status = 1
-            }
-            else{
-                status = 0;
-            }
-
-            var dataString = "action=4" + "&id=" + p1 + "&status=" + status;
-            $.ajax({
-            type: "POST",
-            url: "https://carsportpremium.000webhostapp.com/registroCurso/service/actions.php",
-            data: dataString,
-            cache: false,
-            success: function (data) {
-                if (data == 200) {
-                    if (p2 == 0) {
-                        $('#ST'+p1).css('background-color', 'green');
-                    }
-                    else {
-                        $('#ST'+p1).css('background-color', 'red');
-                    }
-                }
-            }
-        });
-        }
+       
     </script>
 </body>
 
